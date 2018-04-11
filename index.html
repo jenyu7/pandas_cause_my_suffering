@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python Pandas - wha_happen</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <div class = "container">
+    <center>
+      <img src = "head.png"></img>
+    </center>
+    <br> <br> <br>
+    <h4> What is Python Pandas? </h4>
+    Pandas is a open-source library for data structures and manipulations. The name comes from <b>pan</b>el <b>da</b>ta, which are multidimensional datasets of measurements over time. Pandas is a good technology to learn as it is very adept at data processing. It provides easy data manipulation with the DataFrame object, has tools for conversion between CSV and DataFrames, the capability to perform mathematical functions on data and the functionality for merging/manipulating datasets. The major drawback of pandas is that it lacks analyzing and modeling capabilities, but it certainly can process data enough for a user for them to analyze it on their own accord.
+    <br> <br>
+    <h4> Installation </h4>
+    Python pandas is relatively simple to install into a virtual environment.
+    <pre>
+      <code>
+	$ /path/to/venv/bin/activate
+	(venv) $ pip install pandas
+    </code>
+    </pre>
+    After installation, python files using pandas can be run. <br> <br>
+
+    <h4> Series in pandas </h4> 
+    <p> A Series object in pandas is similar to an array in other languages. It is a one dimensional list of the same typed item. <br> <br>An example of how to create a Series: 
+    <pre>
+      <code>
+	[In]:
+	    import pandas as pd
+	    n = pd.Series([7, 8, 9])
+	    n
+	[Out]:
+	
+	    0    7
+	    1    8
+	    2    9
+	    dtype: int64
+      </code>
+    </pre>
+    There are different types of data. The example shown before was an array of an integer type (int64), but there are also floats, booleans, and objects. If you mix around datatypes in a Series, e.g. a float and an string in the same Series, then the datatype is set automatically to object. To get the datatype of a Series, you can use <code> [series_name].dtype </code> which would return something like <code> dtype('float64') </code> or such.  <br> <br>
+
+    One of the reasons why python pandas is so advantageous as a data manipulating/processing tool is the following functionality: <b>broadcasting functions across a Series.</b> This basically means that a function/condition can be broadly applied to across all members of a Series, and it will return a new Series with the result of that expression applied to all members of the original Series. <br> <br>
+    Using again, the Series n from above, we can apply a condition to it: 
+    <pre>
+      <code>
+	[In]: 
+	    n &lt 8
+
+	[Out]:
+	    0    True
+	    1    False
+	    2    False
+	    dtype: bool
+      </code>
+    </pre>
+
+    You can also broadcast a more complicated function that you wrote using the <code> [series].map() </code> functionality: 
+    <pre>
+      <code>
+	[In]:
+	    n.map(lambda x: x%3 == 2)
+	
+	[Out]:
+	    0    False
+       	    1    True
+	    2    False
+	    dtype: bool
+      </code>
+    </pre>
+    </p>
+    
+    <br>
+    <h4> DataFrames in pandas </h4>
+
+    A DataFrame object in python pandas is in essence a collection of Series objects with a shared index; the Series each represent a column, and they share the row labels. <br> <br>
+    Here is how to create a DataFrame object: 
+    <pre>
+      <code>
+	[In]:
+	    d = pd.DataFrame(
+	    &nbsp[
+	    &nbsp&nbsp[1, 2.3, "six"]
+	    &nbsp&nbsp[2, 4, 6]
+	    &nbsp&nbsp[99, 42, 21],
+	    &nbsp]
+	    &nbsp columns=['a', 'b', 'c'],
+	    &nbsp index = ['r1', 'r2', 'r3'])
+
+	    d
+      </code>
+    </pre>
+    Which displays:<br><br>
+    <table style="margin-left:30px;" border="1">
+      <tr>
+	<td></td>
+	<th scope="col"> a </th>
+	<th scope="col"> b </th>
+	<th scope="col"> c </th>
+      </tr>
+      <tr>
+	<th scope="row">r1</th>
+	<td> 1 </td>
+	<td> 2.3 </td>
+	<td> six </td>
+      </tr>
+      <tr>
+	<th scope="row">r2</th>
+	<td> 2 </td>
+	<td> 4 </td>
+	<td> 6 </td>
+      </tr>
+      <tr>
+	<th scope="row">r3</th>
+	<td> 99 </td>
+	<td> 42 </td>
+	<td> 21 </td>
+      </tr>
+    </table>
+    <br> <br>
+    
+    Again, with DataFrames, we see the benefits python pandas can provide in data manipulation. Here, we have the ease of <b> selecting data </b> based on certain criteria. Here are a few ways to do it. <br> <br>
+    <i> Selecting by key: </i> <br> <br>
+    We can select the column named 'b' from the DataFrame d.
+    <pre>
+      <code>
+	[In]:
+	    d['b']
+
+	[Out]:
+	    r1    2
+	    r2    4
+	    r3    6
+	    Name: b, dtype: float64
+      </code>
+    </pre>
+
+    You can also do the same thing by indexing two columns, with code like <code> d['b']['c'] </code>.
+    <br> <br>
+    <i> Selecting by slicing:</i> <br><br>
+    Like a Python list, you can use slice operators on DataFrames. This way, you can select a range of rows to gather data from. 
+    <pre>
+      <code>
+	[In]:
+	    d[1:]
+      </code>
+    </pre>
+
+    This code returns the rows after row 1 (non-inclusive), which are row 2 and 3 in this case: <br> <br>
+    <table style="margin-left:30px;" border="1">
+      <tr>
+	<td></td>
+	<th scope="col"> a </th>
+	<th scope="col"> b </th>
+	<th scope="col"> c </th>
+      </tr>
+      <tr>
+	<th scope="row">r2</th>
+	<td> 2 </td>
+	<td> 4 </td>
+	<td> 6 </td>
+      </tr>
+      <tr>
+	<th scope="row">r3</th>
+	<td> 99 </td>
+	<td> 42 </td>
+	<td> 21 </td>
+      </tr>
+    </table>
+    <br> <br>
+
+    <i> Selecting by row or column name: </i> <br> <br>
+    Instead of slicing, however, you can directly select a row by using its name along with the <code> [dataframe].xs() </code> function. It is used in the manner shown below: 
+    <pre>
+      <code>
+	[In]:
+	    d.xs('r3', axis=0)
+
+	[Out]:
+	    a    99
+	    b    42
+	    c    21
+	    Name: r3, dtype: object
+      </code>
+    </pre>
+
+    Similarily, you can also select a column by its name:
+    <pre>
+      <code>
+	[In]:
+	    d.xs('b', axis=1)
+
+	[Out]:
+	    r1    2.3
+	    r2    4
+	    r3    42
+	    Name: b, dtype: float64
+      </code>
+    </pre>
+
+    Just a few things to note so far. The <code> axis </code> parameter is defaulted to 0, but it simply specifies the crossection of data that should be taken. For example, if you were selecting data from a row, you could change the axis to take only a part of the row, instead of the entire thing. <br> <br>
+
+    Additionally, if you've been paying attention to the datatypes, notice that the datatype of a column matches the first item placed in it. Of course, the most general datatype is object, which is why when we selected row 'r3' above, the dtype turned out to be object, because column 'c''s datatype is object. <br> <br>
+
+    <i> Selecting by a mask: </i> <br> <br>
+    This method of selection may not be very useful, but it is interesting. 
+    <pre>
+      <code>
+	[In]:
+	    mask = [True, False, True]
+	    d[mask]
+      </code>
+    </pre>
+
+    Applying the mask displays the table now as: <br><br>
+    <table style="margin-left:30px;" border="1">
+      <tr>
+	<td></td>
+	<th scope="col"> a </th>
+	<th scope="col"> b </th>
+	<th scope="col"> c </th>
+      </tr>
+      <tr>
+	<th scope="row">r1</th>
+	<td> 1 </td>
+	<td> 2.3 </td>
+	<td> six </td>
+      </tr>
+      <tr>
+	<th scope="row">r3</th>
+	<td> 99 </td>
+	<td> 42 </td>
+	<td> 21 </td>
+      </tr>
+    </table>
+
+    <br> <br>
+    So what happened? If you look more closely, you can see that only r2 is not displayed. According to the mask, the index 1 is set to False, which corresponds to the row indexed 1 in the DataFrame. Because the value is False, the row is not displayed, and the rows r1 and r3, which correspond with a value True, are still shown. 
+    <br> <br>
+    So that's all for now, before we show you our very own python pandas project.
+    <br> <br>
+</p>
+<h4> Chopsticks Efficiency -- Using pandas </h4>
+A real project using python pandas -- here, we used statistics for chopstick efficiency, analyzed the dataset, and used python pandas to gain insight on the information. You can also find the project on github <a href = "https://github.com/yhelen-stuy/vigilant-barnacle"> here. </a><br><br><br>
+<center><img style = "width:60%" src = "nb.jpg"></img></center>
+  </div> 
+</html> 
